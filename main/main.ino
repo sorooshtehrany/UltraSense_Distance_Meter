@@ -14,4 +14,5 @@ void setup() {
 void loop() {
   ultrasonicSensor.showcaseMeasureDistance();
   ultrasonicSensor.showcaseObjectDetection(30);
+  ultrasonicSensor.showcaseSensorDataFiltering();
 }
