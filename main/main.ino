@@ -1,4 +1,3 @@
-// Include the UltrasonicSensor class
 #include "ultrasonic.h" // Assuming you save the class in a separate file named UltrasonicSensor.h
 
 // Define trig and echo pins
@@ -14,4 +13,5 @@ void setup() {
 
 void loop() {
   ultrasonicSensor.showcaseMeasureDistance();
+  ultrasonicSensor.showcaseObjectDetection(30);
 }

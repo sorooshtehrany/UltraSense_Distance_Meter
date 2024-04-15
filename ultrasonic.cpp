@@ -24,6 +24,13 @@ float UltrasonicSensor::measureDistance(bool inCentimeters) {
     }
 }
 
+bool UltrasonicSensor::isObjectDetected(float thresholdDistance) {
+    float distance = measureDistance();
+    return distance <= thresholdDistance;
+}
+
+#ifdef SHOWCASE_METHOD
+
 void UltrasonicSensor::showcaseMeasureDistance() {
     // Measure distance in centimeters (default)
     float distance_cm = measureDistance();
@@ -39,6 +46,18 @@ void UltrasonicSensor::showcaseMeasureDistance() {
     Serial.print("Distance in inches: ");
     Serial.print(distance_in);
     Serial.println(" inches");
+    Serial.println("-----------------------------------");
+    delay(1000); // Delay for stability
+}
+
+void UltrasonicSensor::showcaseObjectDetection(float thresholdDistance) {
+    bool objectDetected = isObjectDetected(thresholdDistance);
+
+    // Print object detection result to serial monitor
+    Serial.print("Object detected: ");
+    Serial.println(objectDetected ? "True" : "False");
+	Serial.println("-----------------------------------");
 
     delay(1000); // Delay for stability
 }
+#endif

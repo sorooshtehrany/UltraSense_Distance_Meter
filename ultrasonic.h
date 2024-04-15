@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 
+#define SHOWCASE_METHOD
+
 class UltrasonicSensor {
 private:
     int trigPin;
@@ -11,7 +13,12 @@ private:
 public:
     UltrasonicSensor(int trig, int echo);
     float measureDistance(bool inCentimeters = true);
-	void showcaseMeasureDistance();
+	bool isObjectDetected(float thresholdDistance);
+
+#ifdef SHOWCASE_METHOD
+	  void showcaseMeasureDistance();
+	  void showcaseObjectDetection(float thresholdDistance);
+#endif
 };
 
 #endif
