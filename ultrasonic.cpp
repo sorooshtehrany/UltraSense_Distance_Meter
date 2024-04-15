@@ -29,6 +29,25 @@ bool UltrasonicSensor::isObjectDetected(float thresholdDistance) {
     return distance <= thresholdDistance;
 }
 
+float UltrasonicSensor::filterSensorData() {
+    unsigned long startTime = millis();
+    unsigned long endTime = startTime + 100; // 100ms window
+
+    float sum = 0;
+    int count = 0;
+
+    // Measure distance repeatedly and calculate the sum
+    while (millis() < endTime) {
+        sum += measureDistance();
+        count++;
+        delayMicroseconds(12000); // Each call to measureDistance takes 12us
+    }
+
+    // Calculate the average distance
+    float averageDistance = sum / count;
+    return averageDistance;
+}
+
 #ifdef SHOWCASE_METHOD
 
 void UltrasonicSensor::showcaseMeasureDistance() {
@@ -56,8 +75,20 @@ void UltrasonicSensor::showcaseObjectDetection(float thresholdDistance) {
     // Print object detection result to serial monitor
     Serial.print("Object detected: ");
     Serial.println(objectDetected ? "True" : "False");
-	Serial.println("-----------------------------------");
+    Serial.println("-----------------------------------");
 
+    delay(1000); // Delay for stability
+}
+
+void UltrasonicSensor::showcaseSensorDataFiltering() {
+    // Get filtered sensor data
+    float filteredData = filterSensorData();
+
+    // Print filtered sensor data to serial monitor
+    Serial.print("Filtered sensor data: ");
+    Serial.print(filteredData);
+    Serial.println(" cm");
+    Serial.println("-----------------------------------");
     delay(1000); // Delay for stability
 }
 #endif

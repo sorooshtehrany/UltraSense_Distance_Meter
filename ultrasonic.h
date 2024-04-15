@@ -14,10 +14,12 @@ public:
     UltrasonicSensor(int trig, int echo);
     float measureDistance(bool inCentimeters = true);
 	bool isObjectDetected(float thresholdDistance);
+	float filterSensorData();
 
 #ifdef SHOWCASE_METHOD
 	  void showcaseMeasureDistance();
 	  void showcaseObjectDetection(float thresholdDistance);
+	  void showcaseSensorDataFiltering();
 #endif
 };
 
