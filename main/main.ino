@@ -1,4 +1,4 @@
-#include "ultrasonic.h" // Assuming you save the class in a separate file named UltrasonicSensor.h
+#include "ultrasonic.h"
 
 // Define trig and echo pins
 const int trigPin = 9;
@@ -9,6 +9,7 @@ UltrasonicSensor ultrasonicSensor(trigPin, echoPin);
 
 void setup() {
   Serial.begin(9600); // Initialize serial communication
+  ultrasonicSensor.setCalibration(1.0, 1.0);
 }
 
 void loop() {

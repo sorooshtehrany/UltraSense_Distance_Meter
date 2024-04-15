@@ -1,7 +1,13 @@
 #include "ultrasonic.h"
 
-// Constructor: Initializes the UltrasonicSensor object with trig and echo pins
-UltrasonicSensor::UltrasonicSensor(int trig, int echo) : trigPin(trig), echoPin(echo) {
+// Constructor for the UltrasonicSensor class.
+//
+// @param trig The pin number for the trigger pin of the ultrasonic sensor.
+// @param echo The pin number for the echo pin of the ultrasonic sensor.
+//              Defaults:
+//                - soundSpeedCalibration: 1.0 (no calibration)
+//                - distanceCalibration: 1.0 (no calibration)
+UltrasonicSensor::UltrasonicSensor(int trig, int echo) : trigPin(trig), echoPin(echo), soundSpeedCalibration(1.0), distanceCalibration(1.0) {
     pinMode(trigPin, OUTPUT);
     pinMode(echoPin, INPUT);
 }
@@ -14,7 +20,7 @@ UltrasonicSensor::UltrasonicSensor(int trig, int echo) : trigPin(trig), echoPin(
 // @param distanceCalibration  Calibration factor for fine-tuning distance measurements.
 //                              Default value: 1.0 (no calibration).
 // @return The measured distance in centimeters or inches, based on the 'inCentimeters' parameter.
-float UltrasonicSensor::measureDistance(bool inCentimeters = true, float soundSpeedCalibration = 1.0, float distanceCalibration = 1.0){
+float UltrasonicSensor::measureDistance(bool inCentimeters = true){
     // Send trigger signal
     digitalWrite(trigPin, LOW);
     delayMicroseconds(2);
@@ -57,7 +63,7 @@ float UltrasonicSensor::filterSensorData() {
 
     // Measure distance repeatedly and calculate the sum
     while (millis() < endTime) {
-        sum += measureDistance(1.0, 1.0);
+        sum += measureDistance();
         count++;
     }
 
@@ -66,15 +72,24 @@ float UltrasonicSensor::filterSensorData() {
     return averageDistance;
 }
 
+// Set calibration values for the ultrasonic sensor.
+//
+// @param soundSpeed The calibration factor for adjusting the speed of sound, considering environmental conditions.
+// @param distance The calibration factor for fine-tuning distance measurements.
+void UltrasonicSensor::setCalibration(float soundSpeed, float distance) {
+    soundSpeedCalibration = soundSpeed;
+    distanceCalibration = distance;
+}
+
 #ifdef SHOWCASE_METHOD
 
 // Showcases the measurement of distance in centimeters and inches
 void UltrasonicSensor::showcaseMeasureDistance() {
     // Measure distance in centimeters (default)
-    float distance_cm = measureDistance(1.0,1.0);
+    float distance_cm = measureDistance();
 
     // Measure distance in inches
-    float distance_in = measureDistance(false, 1.0, 1.0);
+    float distance_in = measureDistance(false);
 
     // Print the distances to serial monitor
     Serial.print("Distance in centimeters: ");
