@@ -1,7 +1,7 @@
 #include "ultrasonic.h"
 
-#define CM_TO_US_FACTOR 58
-#define INCH_TO_US_FACTOR 148
+#define CM_TO_US_FACTOR 58.0f
+#define INCH_TO_US_FACTOR 148.0f
 
 // Constructor for the UltrasonicSensor class.
 //
