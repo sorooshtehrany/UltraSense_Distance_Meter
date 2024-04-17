@@ -14,7 +14,7 @@ private:
 
 public:
   UltrasonicSensor(int trig, int echo);
-  float UltrasonicSensor::measureDistance(bool inCentimeters = true);
+  float measureDistance(bool inCentimeters = true);
   bool isObjectDetected(float thresholdDistance);
   float filterSensorData();
   void setCalibration(float soundSpeed, float distance);
