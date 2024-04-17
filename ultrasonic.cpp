@@ -1,5 +1,8 @@
 #include "ultrasonic.h"
 
+#define CM_TO_US_FACTOR 58
+#define INCH_TO_US_FACTOR 148
+
 // Constructor for the UltrasonicSensor class.
 //
 // @param trig The pin number for the trigger pin of the ultrasonic sensor.
@@ -20,7 +23,7 @@ UltrasonicSensor::UltrasonicSensor(int trig, int echo) : trigPin(trig), echoPin(
 // @param distanceCalibration  Calibration factor for fine-tuning distance measurements.
 //                              Default value: 1.0 (no calibration).
 // @return The measured distance in centimeters or inches, based on the 'inCentimeters' parameter.
-float UltrasonicSensor::measureDistance(bool inCentimeters = true){
+float UltrasonicSensor::measureDistance(bool inCentimeters = true) {
     // Send trigger signal
     digitalWrite(trigPin, LOW);
     delayMicroseconds(2);
@@ -34,10 +37,11 @@ float UltrasonicSensor::measureDistance(bool inCentimeters = true){
     // Calculate distance based on duration and calibration factors
     if (inCentimeters) {
         // Calculate distance in centimeters with calibration factors
-        return (duration * 0.034 * soundSpeedCalibration) / (2 * distanceCalibration);
-    } else {
-        // Calculate distance in inches with calibration factors
-        return (duration * 0.0133 * soundSpeedCalibration) / (2 * distanceCalibration);
+        return (duration / CM_TO_US_FACTOR) * (soundSpeedCalibration * distanceCalibration);
+    }
+    else {
+        // Calculate distance in inches with calibration factors        
+        return (duration / INCH_TO_US_FACTOR) * (soundSpeedCalibration * distanceCalibration);
     }
 }
 
