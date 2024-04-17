@@ -31,9 +31,14 @@ float UltrasonicSensor::measureDistance(bool inCentimeters = true) {
     delayMicroseconds(10);
     digitalWrite(trigPin, LOW);
 
-    // Measure echo duration
-    long duration = pulseIn(echoPin, HIGH);
+    // Measure echo duration with a timeout slightly longer than 36ms
+    long duration = pulseIn(echoPin, HIGH, 40 * 1000); // 40ms timeout
 
+    // Check if no echo was received
+    if (duration == 0) {
+        return -1.0; // Return a special value to indicate no detection
+    }
+	
     // Calculate distance based on duration and calibration factors
     if (inCentimeters) {
         // Calculate distance in centimeters with calibration factors
