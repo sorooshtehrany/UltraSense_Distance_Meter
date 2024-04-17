@@ -9,6 +9,7 @@ UltrasonicSensor ultrasonicSensor(trigPin, echoPin);
 
 void setup() {
   Serial.begin(9600); // Initialize serial communication  
+  ultrasonicSensor.setCalibration(1.0, 0.9918);
 }
 
 void loop() {
