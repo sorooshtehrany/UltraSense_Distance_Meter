@@ -8,8 +8,7 @@ const int echoPin = 10;
 UltrasonicSensor ultrasonicSensor(trigPin, echoPin);
 
 void setup() {
-  Serial.begin(9600); // Initialize serial communication
-  ultrasonicSensor.setCalibration(1.0, 1.0);
+  Serial.begin(9600); // Initialize serial communication  
 }
 
 void loop() {
